@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Presentación interactiva del análisis del parque automotor en Colombia con estadística descriptiva, inferencial y predictiva." />
+  <title>Parque automotor en Colombia | Análisis 2000–2026</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Parque Automotor RUNT</div>
+    <div class="topbar-right">
+      <span id="slideCounter">1 / 21</span>
+      <div class="progress"><span id="progressBar"></span></div>
+    </div>
+  </header>
+
+  <main class="deck" id="deck">
+    <section class="slide active cover" data-title="Portada">
+      <div class="cover-grid">
+        <div class="cover-copy reveal">
+          <p class="eyebrow">Análisis estadístico en R</p>
+          <h1>Evolución y proyección del parque automotor en Colombia</h1>
+          <p class="subtitle">Contexto histórico 2000–2026 · foco analítico 2020–2026 · proyección 2027</p>
+          <div class="chips">
+            <span>191.640 registros</span>
+            <span>9 variables</span>
+            <span>RStudio</span>
+            <span>Descriptiva + inferencial + predictiva</span>
+          </div>
+        </div>
+        <div class="cover-panel reveal delay-1">
+          <div class="big-stat"><strong>2027</strong><span>Horizonte de predicción</span></div>
+          <div class="mini-grid">
+            <div><b>2000</b><span>Inicio del periodo analizado</span></div>
+            <div><b>2026</b><span>Último año disponible</span></div>
+            <div><b>3</b><span>Modelos comparados</span></div>
+            <div><b>1</b><span>Modelo seleccionado</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Contexto de la base">
+      <div class="section-head reveal">
+        <p class="eyebrow">01 · Contextualización</p>
+        <h2>¿Qué contiene la base de datos?</h2>
+      </div>
+      <div class="two-col">
+        <div class="card reveal">
+          <h3>Objeto de estudio</h3>
+          <p>La base consolida información del parque automotor registrado en Colombia y permite observar la cantidad de vehículos según ubicación geográfica, clase, servicio, estado y año de registro.</p>
+          <p>La variable central fue <code>cantidad</code>, porque representa el número de vehículos asociado a cada combinación de características.</p>
+        </div>
+        <div class="card reveal delay-1">
+          <h3>Variables utilizadas</h3>
+          <div class="tag-list">
+            <span>nombre_departamento</span><span>nombre_municipio</span><span>nombre_servicio</span><span>estado_del_vehiculo</span><span>nombre_de_la_clase</span><span>fecha_de_registro</span><span>cantidad</span><span>mes_de_publicacion</span><span>ano_de_publicacion</span>
+          </div>
+        </div>
+      </div>
+      <div class="note reveal delay-2">La base contiene años desde 1900 hasta 2026. Para el análisis de crecimiento se filtró 2000–2026 y la lectura principal se concentra en el comportamiento reciente de 2020–2026.</div>
+    </section>
+
+    <section class="slide" data-title="Preparación en R">
+      <div class="section-head reveal"><p class="eyebrow">02 · Preparación</p><h2>Cómo se trabajó la base en R</h2></div>
+      <div class="steps">
+        <div class="step reveal"><span>1</span><div><h3><code>read_excel()</code></h3><p>Importó la hoja <strong>Base_limpia</strong> desde el archivo Excel.</p></div></div>
+        <div class="step reveal delay-1"><span>2</span><div><h3><code>filter()</code></h3><p>Limitó el análisis al periodo definido y permitió crear subconjuntos específicos como 2025–2026.</p></div></div>
+        <div class="step reveal delay-2"><span>3</span><div><h3><code>group_by()</code> + <code>summarise()</code></h3><p>Agruparon por año, departamento, municipio, clase y servicio para totalizar <code>cantidad</code>.</p></div></div>
+        <div class="step reveal delay-3"><span>4</span><div><h3><code>mutate()</code> + <code>lag()</code></h3><p>Calcularon crecimiento absoluto y porcentaje de variación frente al año anterior.</p></div></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Periodo reciente 2020-2026">
+      <div class="section-head reveal"><p class="eyebrow">03 · Foco reciente</p><h2>2020–2026: años centrales del análisis</h2></div>
+      <div class="dashboard-grid reveal">
+        <div class="metric"><span>2020</span><strong>719.950</strong><small>vehículos · −18,04%</small></div>
+        <div class="metric"><span>2021</span><strong>998.830</strong><small>+38,74%</small></div>
+        <div class="metric"><span>2022</span><strong>1.094.000</strong><small>+9,53%</small></div>
+        <div class="metric"><span>2023</span><strong>892.434</strong><small>−18,42%</small></div>
+        <div class="metric"><span>2024</span><strong>1.043.520</strong><small>+16,93%</small></div>
+        <div class="metric accent"><span>2025</span><strong>1.392.265</strong><small>+33,42%</small></div>
+        <div class="metric"><span>2026</span><strong>1.169.846</strong><small>−15,98%</small></div>
+      </div>
+      <div class="note reveal delay-1">La caída de 2026 debe interpretarse con cautela y siempre en función del corte disponible de la fuente; el valor no debe leerse automáticamente como una reducción estructural del parque automotor.</div>
+    </section>
+
+    <section class="slide image-slide" data-title="Crecimiento general">
+      <div class="section-head reveal"><p class="eyebrow">04 · Estadística descriptiva</p><h2>Evolución general del parque automotor</h2></div>
+      <div class="image-card reveal delay-1"><img src="assets/crecimiento_general_2000_2026.png" alt="Evolución general del parque automotor 2000 a 2026" /></div>
+      <div class="caption reveal delay-2"><strong>Lectura:</strong> la serie muestra una tendencia general creciente, aunque con caídas puntuales. El máximo reciente se observa en 2025 con 1.392.265 vehículos registrados en la variable cantidad.</div>
+    </section>
+
+    <section class="slide" data-title="Funciones crecimiento">
+      <div class="section-head reveal"><p class="eyebrow">05 · Cómo se calculó</p><h2>Funciones usadas para medir el crecimiento</h2></div>
+      <div class="code-layout">
+        <pre class="code-card reveal"><code>crecimiento_anual &lt;- datos_periodo %&gt;%
+  group_by(fecha_de_registro) %&gt;%
+  summarise(
+    total_vehiculos = sum(cantidad),
+    registros = n(),
+    .groups = "drop"
+  ) %&gt;%
+  arrange(fecha_de_registro) %&gt;%
+  mutate(
+    crecimiento_absoluto = total_vehiculos - lag(total_vehiculos),
+    crecimiento_porcentual = (total_vehiculos / lag(total_vehiculos) - 1) * 100
+  )</code></pre>
+        <div class="function-cards reveal delay-1">
+          <div><b><code>sum()</code></b><span>Totaliza la cantidad de vehículos.</span></div>
+          <div><b><code>n()</code></b><span>Cuenta filas, no vehículos.</span></div>
+          <div><b><code>arrange()</code></b><span>Ordena cronológicamente.</span></div>
+          <div><b><code>lag()</code></b><span>Trae el valor del año anterior.</span></div>
+          <div><b><code>mutate()</code></b><span>Crea nuevas variables calculadas.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide image-slide" data-title="Departamentos">
+      <div class="section-head reveal"><p class="eyebrow">06 · Territorio</p><h2>Evolución por departamento</h2></div>
+      <div class="image-card reveal delay-1"><img src="assets/crecimiento_top_departamentos.png" alt="Evolución de los diez departamentos con mayor parque automotor" /></div>
+      <div class="caption reveal delay-2">En acumulado 2000–2026 destacan Antioquia (3.135.792), Cundinamarca (2.467.957), Bogotá D.C. (2.294.595) y Valle del Cauca (2.148.244).</div>
+    </section>
+
+    <section class="slide image-slide" data-title="Municipios">
+      <div class="section-head reveal"><p class="eyebrow">07 · Escala municipal</p><h2>Municipios con mayor cantidad acumulada</h2></div>
+      <div class="image-card reveal delay-1"><img src="assets/top_20_municipios.png" alt="Top veinte municipios con mayor cantidad acumulada" /></div>
+      <div class="caption reveal delay-2">Bogotá concentra el mayor acumulado municipal. También sobresalen municipios de Antioquia, Cundinamarca, Valle del Cauca y Santander.</div>
+    </section>
+
+    <section class="slide image-slide" data-title="Clases de vehículos">
+      <div class="section-head reveal"><p class="eyebrow">08 · Clase de vehículo</p><h2>¿Qué clases crecieron más?</h2></div>
+      <div class="split-visual">
+        <div class="image-card reveal"><img src="assets/clases_mayor_crecimiento.png" alt="Clases de vehículos con mayor crecimiento" /></div>
+        <div class="stat-stack reveal delay-1">
+          <div class="stat-box"><span>Motocicleta</span><strong>+860.062</strong><small>de 56.392 a 916.454 · +1.525,15%</small></div>
+          <div class="stat-box"><span>Camioneta</span><strong>+130.416</strong><small>de 9.906 a 140.322 · +1.316,54%</small></div>
+          <div class="stat-box"><span>Motocarro</span><strong>+24.340</strong><small>crecimiento relativo muy alto por una base inicial pequeña</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide image-slide" data-title="Servicio">
+      <div class="section-head reveal"><p class="eyebrow">09 · Uso del vehículo</p><h2>Evolución según el tipo de servicio</h2></div>
+      <div class="image-card reveal delay-1"><img src="assets/crecimiento_por_servicio.png" alt="Evolución del parque automotor según servicio" /></div>
+      <div class="caption reveal delay-2">El servicio <strong>PARTICULAR</strong> domina ampliamente: pasó de 108.677 en 2000 a 1.123.815 en 2026, un crecimiento absoluto de 1.015.138 vehículos (+934,09%).</div>
+    </section>
+
+    <section class="slide" data-title="Profesor 2025 vs 2026">
+      <div class="section-head reveal"><p class="eyebrow">10 · Requisito del profesor</p><h2>Comparación descriptiva 2025 vs. 2026</h2></div>
+      <div class="table-wrap reveal">
+        <table>
+          <thead><tr><th>Año</th><th>Registros</th><th>Media</th><th>Mediana</th><th>Desv.</th><th>Máximo</th><th>Total</th></tr></thead>
+          <tbody>
+            <tr><td>2025</td><td>4.180</td><td>333,08</td><td>4</td><td>2.607,97</td><td>84.298</td><td>1.392.265</td></tr>
+            <tr><td>2026</td><td>3.716</td><td>314,81</td><td>4</td><td>2.428,38</td><td>73.872</td><td>1.169.846</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note reveal delay-1">La diferencia de medias fue 18,26, pero una diferencia descriptiva no implica por sí sola una diferencia estadísticamente significativa.</div>
+    </section>
+
+    <section class="slide" data-title="Boxplots">
+      <div class="section-head reveal"><p class="eyebrow">11 · Distribución</p><h2>Boxplots de 2025 y 2026</h2></div>
+      <div class="gallery two">
+        <figure class="image-card reveal"><img src="assets/boxplot_2025_nuevo.png" alt="Boxplot 2025" /><figcaption>2025</figcaption></figure>
+        <figure class="image-card reveal delay-1"><img src="assets/boxplot_2026_nuevo.png" alt="Boxplot 2026" /><figcaption>2026</figcaption></figure>
+      </div>
+      <div class="caption reveal delay-2">Ambos años presentan fuerte asimetría positiva y numerosos valores extremos. La mediana de 4 frente a medias superiores a 300 confirma que unos pocos valores altos elevan el promedio.</div>
+    </section>
+
+    <section class="slide" data-title="Inferencia">
+      <div class="section-head reveal"><p class="eyebrow">12 · Estadística inferencial</p><h2>Normalidad y selección de la prueba</h2></div>
+      <div class="flow reveal">
+        <div><strong>Shapiro-Wilk</strong><span>2025: p &lt; 2,2e−16<br>2026: p &lt; 2,2e−16</span></div>
+        <div class="arrow">→</div>
+        <div><strong>No normalidad</strong><span>Se rechaza el supuesto de normalidad en ambos grupos</span></div>
+        <div class="arrow">→</div>
+        <div><strong>Wilcoxon</strong><span>Prueba no paramétrica para dos grupos independientes</span></div>
+      </div>
+      <div class="result-banner reveal delay-1"><span>p = 0,5567</span><strong>No se rechaza H₀</strong><p>No existe evidencia suficiente para afirmar una diferencia significativa entre 2025 y 2026.</p></div>
+    </section>
+
+    <section class="slide" data-title="Intervalos">
+      <div class="section-head reveal"><p class="eyebrow">13 · Intervalos</p><h2>Intervalos de confianza del 95%</h2></div>
+      <div class="interval-grid reveal">
+        <div class="interval-card"><span>2025</span><strong>333,08</strong><div class="interval-bar"><i style="left:25%;width:38%"></i></div><small>253,99 — 412,16</small></div>
+        <div class="interval-card"><span>2026</span><strong>314,81</strong><div class="interval-bar"><i style="left:17%;width:39%"></i></div><small>236,71 — 392,92</small></div>
+      </div>
+      <div class="note reveal delay-1">Los intervalos se superponen ampliamente, lo que es coherente con el resultado no significativo de Wilcoxon.</div>
+    </section>
+
+    <section class="slide" data-title="Predictiva concepto">
+      <div class="section-head reveal"><p class="eyebrow">14 · Estadística predictiva</p><h2>Objetivo: estimar el comportamiento de 2027</h2></div>
+      <div class="two-col">
+        <div class="card reveal">
+          <h3>Hipótesis del modelo lineal</h3>
+          <p><strong>H₀:</strong> β₁ = 0. El año no presenta relación significativa con la cantidad registrada.</p>
+          <p><strong>H₁:</strong> β₁ ≠ 0. El año sí presenta relación significativa con la cantidad registrada.</p>
+        </div>
+        <div class="card reveal delay-1">
+          <h3>Estrategia de validación</h3>
+          <p>Se reservaron los últimos 3 años como conjunto de prueba y se compararon tres modelos mediante <strong>RMSE</strong>.</p>
+          <p>El modelo con menor RMSE se seleccionó para proyectar 2027.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Funciones predictivas">
+      <div class="section-head reveal"><p class="eyebrow">15 · Funciones predictivas en R</p><h2>Qué hizo cada función</h2></div>
+      <div class="function-grid reveal">
+        <div><code>lm()</code><b>Regresión lineal</b><span>Modeló la relación entre año y total de vehículos.</span></div>
+        <div><code>summary()</code><b>Diagnóstico</b><span>Mostró coeficientes, R², estadísticos t y p-valores.</span></div>
+        <div><code>tidy()</code><b>Tabla de coeficientes</b><span>Organizó los resultados del modelo para interpretación.</span></div>
+        <div><code>predict()</code><b>Predicción</b><span>Estimó valores futuros y generó intervalos de predicción.</span></div>
+        <div><code>ts()</code><b>Serie temporal</b><span>Transformó los datos anuales en una serie ordenada.</span></div>
+        <div><code>ets()</code><b>Suavizamiento exponencial</b><span>Probó un modelo basado en nivel y tendencia.</span></div>
+        <div><code>auto.arima()</code><b>ARIMA automático</b><span>Seleccionó automáticamente una estructura ARIMA apropiada.</span></div>
+        <div><code>forecast()</code><b>Pronóstico</b><span>Generó pronósticos para ETS y ARIMA.</span></div>
+        <div><code>sqrt(mean((real-pred)^2))</code><b>RMSE</b><span>Midió el error de predicción; menor es mejor.</span></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Comparación modelos">
+      <div class="section-head reveal"><p class="eyebrow">16 · Selección del modelo</p><h2>Comparación por RMSE</h2></div>
+      <div class="rmse-chart reveal">
+        <div class="rmse-row best"><span>Regresión lineal</span><div><i style="width:41%"></i></div><strong>140.383</strong></div>
+        <div class="rmse-row"><span>ETS</span><div><i style="width:60%"></i></div><strong>205.272</strong></div>
+        <div class="rmse-row"><span>ARIMA</span><div><i style="width:100%"></i></div><strong>341.377</strong></div>
+      </div>
+      <div class="result-banner compact reveal delay-1"><strong>Modelo seleccionado: Regresión lineal</strong><p>Fue el modelo con menor error de predicción en el conjunto de prueba.</p></div>
+    </section>
+
+    <section class="slide" data-title="Modelo lineal">
+      <div class="section-head reveal"><p class="eyebrow">17 · Resultado del modelo</p><h2>La tendencia anual fue estadísticamente significativa</h2></div>
+      <div class="model-grid reveal">
+        <div class="metric large"><span>β₁</span><strong>37.471,71</strong><small>incremento medio estimado por año</small></div>
+        <div class="metric large"><span>R²</span><strong>0,7602</strong><small>76,02% de variabilidad explicada</small></div>
+        <div class="metric large"><span>p-valor</span><strong>2,87e−08</strong><small>coeficiente del año significativo</small></div>
+      </div>
+      <div class="note reveal delay-1">El modelo lineal identifica una asociación positiva y significativa entre el paso del tiempo y la cantidad total registrada, aunque la serie conserva variaciones interanuales importantes.</div>
+    </section>
+
+    <section class="slide image-slide" data-title="Predicción 2027">
+      <div class="section-head reveal"><p class="eyebrow">18 · Pronóstico general</p><h2>Proyección del parque automotor para 2027</h2></div>
+      <div class="split-visual reverse">
+        <div class="stat-stack reveal">
+          <div class="stat-box highlight"><span>Predicción central</span><strong>1.257.605</strong><small>vehículos</small></div>
+          <div class="stat-box"><span>Intervalo 95%</span><strong>924.018 — 1.591.191</strong><small>intervalo de predicción</small></div>
+        </div>
+        <div class="image-card reveal delay-1"><img src="assets/prediccion_parque_automotor_2027.png" alt="Predicción general del parque automotor para 2027" /></div>
+      </div>
+    </section>
+
+    <section class="slide image-slide" data-title="Predicción departamentos">
+      <div class="section-head reveal"><p class="eyebrow">19 · Pronóstico territorial</p><h2>Departamentos con mayor proyección para 2027</h2></div>
+      <div class="image-card reveal delay-1"><img src="assets/prediccion_departamentos_2027.png" alt="Predicción 2027 por departamento" /></div>
+      <div class="prediction-cards reveal delay-2">
+        <div><span>Antioquia</span><strong>212.819</strong><small>+5,71%</small></div>
+        <div><span>Cundinamarca</span><strong>212.062</strong><small>+3,18%</small></div>
+        <div><span>Valle del Cauca</span><strong>132.366</strong><small>+11,53%</small></div>
+        <div><span>Bogotá D.C.</span><strong>90.718</strong><small>+40,92%</small></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Conclusiones">
+      <div class="section-head reveal"><p class="eyebrow">20 · Conclusiones</p><h2>Principales hallazgos</h2></div>
+      <div class="conclusions">
+        <div class="reveal"><span>01</span><p>El parque automotor presenta una tendencia general creciente, aunque con variaciones fuertes entre años.</p></div>
+        <div class="reveal delay-1"><span>02</span><p>Motocicletas y camionetas lideran el crecimiento absoluto por clase; el servicio particular concentra el mayor volumen.</p></div>
+        <div class="reveal delay-2"><span>03</span><p>En la comparación 2025–2026 no se encontró evidencia estadística suficiente de diferencia significativa mediante Wilcoxon.</p></div>
+        <div class="reveal delay-3"><span>04</span><p>La regresión lineal superó a ETS y ARIMA en RMSE y proyectó 1.257.605 vehículos para 2027, con un intervalo amplio que refleja incertidumbre.</p></div>
+      </div>
+    </section>
+
+    <section class="slide closing" data-title="Cierre">
+      <div class="closing-inner reveal">
+        <p class="eyebrow">Proyecto en RStudio</p>
+        <h2>De la descripción histórica a la proyección futura</h2>
+        <p>La base permitió integrar análisis descriptivo, comparación inferencial y modelación predictiva para comprender cómo ha evolucionado el parque automotor y qué comportamiento podría esperarse en el corto plazo.</p>
+        <div class="chips center"><span>Descriptiva</span><span>Inferencial</span><span>Predictiva</span><span>Visualización</span></div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="controls" aria-label="Controles de presentación">
+    <button id="prevBtn" type="button">Anterior</button>
+    <div class="dots" id="dots"></div>
+    <button id="nextBtn" type="button">Siguiente</button>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>
